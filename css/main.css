@@ -1,0 +1,53 @@
+.login-bg {
+    background-color: #c5fdf1;
+}
+
+.login-text {
+    text-align: center;
+    color: rgb(73, 72, 72);
+}
+
+.login-text2 {
+    text-align: center;
+    color: rgb(182, 179, 179);
+    font-size: 15px;
+}
+
+.login-picture {
+    margin: 5% 0 0 0;
+}
+
+.dot {
+    width: 20px;
+	height: 20px;
+	background-color: #FBDC8E;
+	border-radius: 100%;
+    display: inline-block;
+}
+
+.circle {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 20px ;
+}
+
+.login-form {
+    margin: 12% 0 0 15%;
+}
+
+.login-form div button {
+    background-color: #53b9a0;
+    border-color: #53b9a0;
+    font-weight: 500 ;
+}
+
+.login-form div button:hover {
+    background-color: #008866;
+    border-color: #78c2af;
+}
+
+@media screen and (max-width: 1023px) {
+    .login-form {
+        margin: 40px 0 0 0;
+    }
+}
