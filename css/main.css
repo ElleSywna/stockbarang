@@ -1,3 +1,6 @@
+/********************
+ * Login
+ ********************/
 .login-bg {
     background-color: #c5fdf1;
 }
@@ -50,4 +53,26 @@
     .login-form {
         margin: 40px 0 0 0;
     }
+}
+
+/********************
+ * SideNav
+ ********************/
+/* .sb-sidenav {
+    background-color: #53b9a0;
+} */
+
+/********************
+ * Dashboard
+ ********************/
+.small-box-footer {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+
+.icon-dashboard1 {
+    width: 50px;
+    height: 50px;
+    color: rgb(209, 203, 203);
 }

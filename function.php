@@ -188,7 +188,6 @@ if(isset($_POST['hapusbarang'])){
 
 
 
-
 //Mengubah data barang masuk
 if(isset($_POST['updatebarangmasuk'])){
     $idb=$_POST['idb'];

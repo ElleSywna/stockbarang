@@ -115,9 +115,6 @@ require '../cek.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    ini_set('display_errors','1');
-                                    ini_set('display_startup_errors','1');
-                                    error_reporting(E_ALL);
                                     $ambilsemuadatastock = mysqli_query($conn, "select * from stock");
                                     $i = 1;
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
@@ -134,9 +131,10 @@ require '../cek.php';
                                             $img = "No Photo";
                                         } else {
                                             //jika ada gambar
-                                            $img = '<img src="../images/' . $gambar . '" class="zoomable">';
+                                            $img = '<img src="images/' . $gambar . '" class="zoomable">';
                                         }
-                                        
+
+
                                     ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
@@ -228,8 +226,8 @@ require '../cek.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="../assets/demo/chart-area-demo.js"></script>
-    <script src="../assets/demo/chart-bar-demo.js"></script>
+    <script src="assets/demo/chart-area-demo.js"></script>
+    <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
 </body>
