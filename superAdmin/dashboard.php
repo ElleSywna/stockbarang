@@ -47,6 +47,18 @@ require '../cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Barang Keluar
                         </a>
+                        <a class="nav-link" href="retur.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Barang Retur
+                        </a>
+                        <a class="nav-link" href="supplier.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Supplier
+                        </a>
+                        <a class="nav-link" href="kodeBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Kode Barang
+                        </a>
                         <a class="nav-link" href="admin.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Kelola Admin
@@ -67,6 +79,7 @@ require '../cek.php';
                     <div class="col-lg-3 col-xs-6">
                         <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
                             <div class="card-body">
+                                <h3><?php echo $datax1; ?></h3>
                                 <h5 class="card-title">Info card title</h5>
                             </div>
                             <div class="d-flex">

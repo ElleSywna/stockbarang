@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 11, 2022 at 02:56 PM
+-- Generation Time: Jul 14, 2022 at 02:54 PM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -34,6 +34,14 @@ CREATE TABLE `keluar` (
   `penerima` varchar(25) NOT NULL,
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `keluar`
+--
+
+INSERT INTO `keluar` (`idkeluar`, `idbarang`, `tanggal`, `penerima`, `qty`) VALUES
+(1, 12, '2022-07-14 13:36:20', 'toko lama', 5),
+(2, 12, '2022-07-14 13:56:45', 'toko lama', 1);
 
 -- --------------------------------------------------------
 
@@ -76,7 +84,34 @@ CREATE TABLE `masuk` (
 
 INSERT INTO `masuk` (`idmasuk`, `idbarang`, `tanggal`, `keterangan`, `qty`) VALUES
 (1, 4, '2022-07-11 13:40:50', 'toko lama', 100),
-(2, 13, '2022-07-11 14:45:06', 'toko lama', 100);
+(2, 13, '2022-07-11 14:45:06', 'toko lama', 100),
+(3, 12, '2022-07-13 12:35:01', 'toko lama', 100),
+(4, 12, '2022-07-14 04:23:20', 'toko lama', 2),
+(5, 12, '2022-07-14 04:23:43', 'toko lama', 100),
+(6, 12, '2022-07-14 13:56:57', 'toko lama', 100),
+(7, 12, '2022-07-14 14:06:17', 'toko lama', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `retur`
+--
+
+CREATE TABLE `retur` (
+  `idretur` int(11) NOT NULL,
+  `idbarang` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `penerima` varchar(25) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `retur`
+--
+
+INSERT INTO `retur` (`idretur`, `idbarang`, `tanggal`, `penerima`, `qty`) VALUES
+(2, 12, '2022-07-14 13:45:11', 'toko lama', 100),
+(3, 12, '2022-07-14 13:56:30', 'toko lama', 100);
 
 -- --------------------------------------------------------
 
@@ -97,9 +132,9 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stock`, `image`) VALUES
-(12, 'samsung', 'handphone', 22, 'b500e2848337a93e4de5e676cc308232.png'),
-(13, 'iphone X', 'handphone', 102, '7a7b7c8445c299437e1ffd9ba2bfa39d.webp'),
-(14, 'samsung', 'kendaraan', 22, NULL);
+(12, 'samsung', 'handphone', 82, 'eef3be31de7c991749b191285b5ecffe.png'),
+(13, 'iphone X', 'handphone', 102, '589de840e994331e5f0b78c1bd219b80.png'),
+(16, 'sepatu', 'kendaraan', 2, NULL);
 
 --
 -- Indexes for dumped tables
@@ -124,6 +159,12 @@ ALTER TABLE `masuk`
   ADD PRIMARY KEY (`idmasuk`);
 
 --
+-- Indexes for table `retur`
+--
+ALTER TABLE `retur`
+  ADD PRIMARY KEY (`idretur`);
+
+--
 -- Indexes for table `stock`
 --
 ALTER TABLE `stock`
@@ -137,7 +178,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT for table `keluar`
 --
 ALTER TABLE `keluar`
-  MODIFY `idkeluar` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idkeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `login`
@@ -149,13 +190,19 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `masuk`
 --
 ALTER TABLE `masuk`
-  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `retur`
+--
+ALTER TABLE `retur`
+  MODIFY `idretur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `idbarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `idbarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
