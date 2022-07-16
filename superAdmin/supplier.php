@@ -20,39 +20,46 @@ require '../cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="dashboard.php">Lancar Abadi</a>
+        <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
-
                     <div class="nav">
                         <a class="nav-link" href="dashboard.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
+                        <a class="nav-link" href="kodeBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                            Kode Barang
+                        </a>
                         <a class="nav-link" href="stockBarang.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
                             Stock Barang
                         </a>
                         <a class="nav-link" href="masuk.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
                             Barang Masuk
                         </a>
                         <a class="nav-link" href="keluar.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-minus"></i></div>
                             Barang Keluar
                         </a>
-                        <a class="nav-link" href="supplier.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link" href="retur.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-balance-scale"></i></div>
+                            Barang Retur
+                        </a>
+                        <a class="nav-link text-light" href="supplier.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck" style="color:white ;"></i></div>
                             Supplier
                         </a>
                         <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Kelola Admin
                         </a>
                         <a class="nav-link" href="../logout.php">
@@ -60,9 +67,9 @@ require '../cek.php';
                         </a>
                     </div>
                 </div>
-
             </nav>
         </div>
+
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -119,24 +126,34 @@ require '../cek.php';
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">Edit</h4>
+                                                        <h4 class="modal-title">Edit Data Supplier</h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                     </div>
 
                                                     <!-- Modal body -->
                                                     <form method="post">
                                                         <div class="modal-body">
-                                                            <input type="text" name="namasupplier" value="<?= $namasupplier; ?>" class="form-control mb-3" required>
-                                                            <input type="text" name="alamat" value="<?= $alamat; ?>" class="form-control mb-3" required>
-                                                            <input type="text" name="kontak" value="<?= $kontak; ?>" class="form-control mb-3" required>
+                                                            <div class="form-group">
+                                                                <label style="font-weight:bold ;">Nama Supplier</label>
+                                                                <input type="text" name="namasupplier" value="<?= $namasupplier; ?>" class="form-control mb-3" required>
+                                                                <span class="help-block with-errors"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label style="font-weight:bold ;">Alamat</label>
+                                                                <input type="text" name="alamat" value="<?= $alamat; ?>" class="form-control mb-3" required>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label style="font-weight:bold ;">Kontak</label>
+                                                                <input type="text" name="kontak" value="<?= $kontak; ?>" class="form-control mb-3" required>
+                                                            </div>
+
+
                                                             <br>
                                                             <input type="hidden" name="ids" value="<?= $ids; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updatesupplier">Submit</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -159,12 +176,9 @@ require '../cek.php';
                                                             Apakah anda yakin menghapus <?= $namasupplier; ?>?
                                                             <input type="hidden" name="ids" value="<?= $ids; ?>">
                                                             <br><br>
-                                                            <button type="submit" class="btn btn-danger" name="hapussupplier">Hapus</button>
+                                                            <button type="submit" class="d-flex btn btn-danger" name="hapussupplier">Hapus</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -203,15 +217,12 @@ require '../cek.php';
             <!-- Modal body -->
             <form method="post">
                 <div class="modal-body">
-                    <input type="text" name="namasupplier" placeholder="nama supplier" class="form-control mb-3" required>
-                    <input type="text" name="alamat" placeholder="alamat" class="form-control mb-3" required>
-                    <input type="text" name="kontak" placeholder="kontak" class="form-control mb-3" required>
+                    <input type="text" name="namasupplier" placeholder="Nama Supplier" class="form-control mb-3" required>
+                    <input type="text" name="alamat" placeholder="Alamat" class="form-control mb-3" required>
+                    <input type="text" name="kontak" placeholder="Kontak" class="form-control mb-3" required>
                     <button type="submit" class="btn btn-primary" name="barangsupplier">Submit</button>
                 </div>
             </form>
-
-            <!-- Modal footer -->
-
 
         </div>
     </div>

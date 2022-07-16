@@ -5,17 +5,14 @@ session_start();
 $conn = mysqli_connect("localhost", "root", "", "stockbarang");
 
 
-//Dashboard
-// $sqlx2="SELECT COUNT(userna_me) as data FROM stock";
-// $hasilx2=mysqli_query($conn,$sqlx2);
-// $row=mysqli_fetch_assoc($hasilx2);
-// $datax1=$row['data'];
-
-
-//Menambah barang baru
+/********************
+ * Add data stock barang
+ ********************/
 if (isset($_POST['addnewbarang'])) {
+    $kodebarangnya = $_POST['kodebarangnya'];
     $namabarang = $_POST['namabarang'];
     $deskripsi = $_POST['deskripsi'];
+    $harga = $_POST['harga'];
     $stock = $_POST['stock'];
 
 
@@ -29,66 +26,126 @@ if (isset($_POST['addnewbarang'])) {
     //penamaan file
     $image = md5(uniqid($nama, true) . time()) . '.' . $ekstensi; //menghubungkan file 
 
+    
+    //cek kode barang
+    $cekkodesekarang = mysqli_query($conn, "select * from kode_barang where idkodebarang='$kodebarangnya'");
+    $ambildatakodenya = mysqli_fetch_array($cekkodesekarang);
 
-    //validasi sudah ada atau belum
-    $cek = mysqli_query($conn, "select * from stock where namabarang='$namabarang'");
-    $hitung = mysqli_num_rows($cek);
+    $cekkodesekarang = $ambildatakodenya['kode_barang'];
+    $hitungkode = mysqli_num_rows($cekkodesekarang);
+
+
 
     if ($ukuran == 0) {
-        $addtotable = mysqli_query($conn, "insert into stock (namabarang,deskripsi,stock)values('$namabarang','$deskripsi','$stock')");
+        $addtotable = mysqli_query($conn, "insert into stock (idkodebarang,namabarang,deskripsi,harga,stock)values('$kodebarangnya','$namabarang','$deskripsi','$harga','$stock')");
         if ($addtotable) {
             header('location:stockBarang.php');
-        } else {
-            header('location:stockBarang.php');
-        }
-
-        if ($hitung < 1) {
-            //proses gambar
-            if (in_array($ekstensi, $allowed_extension) === true) {
-                //validasi ukuran file 
-                if ($ukuran < 15000000) {
-                    move_uploaded_file($file_tmp, '../images/' . $image);
-                    $addtotable = mysqli_query($conn, "insert into stock (namabarang,deskripsi,stock,image)values('$namabarang','$deskripsi','$stock','$image')");
-                    if ($addtotable) {
-                        header('location:stockBarang.php');
-                    } else {
-                        echo 'gagal';
-                        header('location:stockBarang.php');
-                    }
+        } 
+    } else if ($hitung < 1) {
+        //proses gambar
+        if (in_array($ekstensi, $allowed_extension) === true) {
+            //validasi ukuran file 
+            if ($ukuran < 15000000) {
+                move_uploaded_file($file_tmp, '../images/' . $image);
+                $addtotable = mysqli_query($conn, "insert into stock (idkodebarang,namabarang,deskripsi,harga,stock,image)values('$kodebarangnya','$namabarang','$deskripsi','$harga','$stock','$image')");
+                if ($addtotable) {
+                    header('location:stockBarang.php');
                 } else {
-                    //kalau ukuran lebih dr 1.5mb
-                    echo '
+                    echo 'gagal';
+                    header('location:stockBarang.php');
+                }
+            } else {
+                //kalau ukuran lebih dr 1.5mb
+                echo '
                 <script>
                     alert("Ukuran terlalu besar");
                     window.location.href="stockBarang.php";
                 </script>
                 ';
-                }
-            } else {
-                //jika file bukan png/jpg
-                echo '
+            }
+        } else {
+            //jika file bukan png/jpg
+            echo '
         <script>
             alert("File Harus png/jpg");
             window.location.href="stockBarang.php";
         </script>
         ';
-            }
-        } else {
-            //jika sudah ada
-            echo '
+        }
+    } else {
+        //jika sudah ada
+        echo '
         <script>
             alert("Nama Barang Sudah Ada");
             window.location.href="stockBarang.php";
         </script>
         ';
+    }
+}
+
+
+/********************
+ * Edit stok barang
+ ********************/
+if (isset($_POST['updatebarang'])) {
+    $idb = $_POST['idb'];
+    $namabarang = $_POST['namabarang'];
+    $deskripsi = $_POST['deskripsi'];
+    $harga = $_POST['harga'];
+
+    //gambar
+    $allowed_extension = array('png', 'jpg');
+    $nama = $_FILES['file']['name']; //ambil nama file 
+    $dot = explode('.', $nama);
+    $ekstensi = strtolower(end($dot)); //ambil ekstensi
+    $ukuran = $_FILES['file']['size']; //ambil size file
+    $file_tmp = $_FILES['file']['tmp_name']; //ambil lokasi file
+    //penamaan file
+    $image = md5(uniqid($nama, true) . time()) . '.' . $ekstensi; //menghubungkan file 
+    if ($ukuran === 0) {
+        //jika tidak ingin upload
+        $update = mysqli_query($conn, "update stock set namabarang='$namabarang', deskripsi='$deskripsi', harga='$harga', image='$image' where idbarang='$idb'");
+        if ($update) {
+            header('location:stockBarang.php');
+        } else {
+            header('location:stockBarang.php');
         }
+    } else {
+        //jika upload
+        move_uploaded_file($file_tmp, '../images/' . $image);
+        $update = mysqli_query($conn, "update stock set namabarang='$namabarang', deskripsi='$deskripsi', harga='$harga', image='$image' where idbarang='$idb'");
+        if ($update) {
+            header('location:stockBarang.php');
+        } else {
+            header('location:stockBarang.php');
+        }
+    }
+}
+
+
+/********************
+ * Delete stok barang
+ ********************/
+if (isset($_POST['hapusbarang'])) {
+    $idb = $_POST['idb'];
+    $gambar = mysqli_query($conn, "select * from stock where idbarang='$idb' ");
+    $get = mysqli_fetch_array($gambar);
+    $img = '../images/' . $get['image'];
+    unlink($img);
+    $hapus = mysqli_query($conn, "delete from stock where idbarang='$idb'");
+    if ($hapus) {
+        header('location:stockBarang.php');
+    } else {
+        header('location:stockBarang.php');
     }
 }
 
 
 
 
-//menambah barang
+/********************
+ * Add barang masuk
+ ********************/
 if (isset($_POST['barangmasuk'])) {
     $barangnya = $_POST['barangnya'];
     $penerima = $_POST['penerima'];
@@ -110,7 +167,9 @@ if (isset($_POST['barangmasuk'])) {
     }
 }
 
-//menambah barang keluar
+/********************
+ * Add barang keluar
+ ********************/
 if (isset($_POST['addbarangkeluar'])) {
     $barangnya = $_POST['barangnya'];
     $penerima = $_POST['penerima'];
@@ -143,57 +202,6 @@ if (isset($_POST['addbarangkeluar'])) {
     }
 }
 
-
-
-//Update info barang
-if (isset($_POST['updatebarang'])) {
-    $idb = $_POST['idb'];
-    $namabarang = $_POST['namabarang'];
-    $deskripsi = $_POST['deskripsi'];
-
-    //gambar
-    $allowed_extension = array('png', 'jpg');
-    $nama = $_FILES['file']['name']; //ambil nama file 
-    $dot = explode('.', $nama);
-    $ekstensi = strtolower(end($dot)); //ambil ekstensi
-    $ukuran = $_FILES['file']['size']; //ambil size file
-    $file_tmp = $_FILES['file']['tmp_name']; //ambil lokasi file
-    //penamaan file
-    $image = md5(uniqid($nama, true) . time()) . '.' . $ekstensi; //menghubungkan file 
-    if ($ukuran === 0) {
-        //jika tidak ingin upload
-        $update = mysqli_query($conn, "update stock set namabarang='$namabarang' ,deskripsi='$deskripsi',image='$image'where idbarang='$idb'");
-        if ($update) {
-            header('location:stockBarang.php');
-        } else {
-            header('location:stockBarang.php');
-        }
-    } else {
-        //jika upload
-        move_uploaded_file($file_tmp, '../images/' . $image);
-        $update = mysqli_query($conn, "update stock set namabarang='$namabarang' ,deskripsi='$deskripsi', image='$image'where idbarang='$idb'");
-        if ($update) {
-            header('location:stockBarang.php');
-        } else {
-            header('location:stockBarang.php');
-        }
-    }
-}
-
-//menghapus barang dari stock
-if (isset($_POST['hapusbarang'])) {
-    $idb = $_POST['idb'];
-    $gambar = mysqli_query($conn, "select * from stock where idbarang='$idb' ");
-    $get = mysqli_fetch_array($gambar);
-    $img = '../images/' . $get['image'];
-    unlink($img);
-    $hapus = mysqli_query($conn, "delete from stock where idbarang='$idb'");
-    if ($hapus) {
-        header('location:stockBarang.php');
-    } else {
-        header('location:stockBarang.php');
-    }
-}
 
 
 

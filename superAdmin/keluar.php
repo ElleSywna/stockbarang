@@ -20,36 +20,46 @@ require '../cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="stockBarang.php">Lancar Abadi</a>
+        <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
-
                     <div class="nav">
-
                         <a class="nav-link" href="dashboard.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
+                        <a class="nav-link" href="kodeBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                            Kode Barang
+                        </a>
                         <a class="nav-link" href="stockBarang.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
                             Stock Barang
                         </a>
                         <a class="nav-link" href="masuk.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
                             Barang Masuk
                         </a>
-                        <a class="nav-link" href="keluar.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link text-light" href="keluar.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-minus" style="color:white ;"></i></div>
                             Barang Keluar
                         </a>
+                        <a class="nav-link" href="retur.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-balance-scale"></i></div>
+                            Barang Retur
+                        </a>
+                        <a class="nav-link" href="supplier.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Supplier
+                        </a>
                         <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Kelola Admin
                         </a>
                         <a class="nav-link" href="../logout.php">
@@ -57,9 +67,9 @@ require '../cek.php';
                         </a>
                     </div>
                 </div>
-
             </nav>
         </div>
+
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -70,6 +80,12 @@ require '../cek.php';
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
                                 Tambah Barang
                             </button>
+                            <br>
+                            <form method="post" class="d-flex w-50 mt-3 mb-2">
+                                <input type="date" name="tgl_mulai" class="d-flex form-control">
+                                <input type="date" name="tgl_selesai" class="d-felx form-control mx-2">
+                                <button type="submit" name="filter_tgl" class="btn btn-info"> Filter </button>
+                            </form>
                         </div>
                         <div class="card-body">
                             <table id="datatablesSimple">
@@ -83,8 +99,21 @@ require '../cek.php';
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     <?php
-                                    $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang=k.idbarang");
+                                    if (isset($_POST['filter_tgl'])) {
+                                        $mulai = $_POST['tgl_mulai'];
+                                        $selesai = $_POST['tgl_selesai'];
+
+                                        if ($mulai != null || $selesai != null) {
+                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) ");
+                                        } else {
+                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang");
+                                        }
+                                    } else {
+                                        $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang");
+                                    }
+
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                         $idk = $data['idkeluar'];
                                         $idb = $data['idbarang'];
@@ -116,7 +145,7 @@ require '../cek.php';
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">Edit</h4>
+                                                        <h4 class="modal-title">Edit Barang Keluar</h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                     </div>
 
@@ -131,9 +160,6 @@ require '../cek.php';
                                                             <button type="submit" class="btn btn-primary" name="updatebarangkeluar">Submit</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -161,8 +187,6 @@ require '../cek.php';
                                                             <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Hapus</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
 
 
                                                 </div>
@@ -221,9 +245,6 @@ require '../cek.php';
                     <button type="submit" class="btn btn-primary" name="addbarangkeluar">Submit</button>
                 </div>
             </form>
-
-            <!-- Modal footer -->
-
 
         </div>
     </div>

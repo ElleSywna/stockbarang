@@ -21,9 +21,8 @@ require '../cek.php';
         }
 
         .zoomable:hover {
-            transform: scale(2.5);
+            transform: scale(1.5);
             transition: 0.3s ease;
-
         }
 
         a {
@@ -36,11 +35,11 @@ require '../cek.php';
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="stockBarang.php">Lancar Abadi</a>
+        <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
     </nav>
+
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -50,31 +49,42 @@ require '../cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link" href="stockBarang.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link" href="kodeBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars"></i></div>
+                            Kode Barang
+                        </a>
+                        <a class="nav-link text-light" href="stockBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked" style="color:white ;"></i></div>
                             Stock Barang
                         </a>
                         <a class="nav-link" href="masuk.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
                             Barang Masuk
                         </a>
                         <a class="nav-link" href="keluar.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-minus"></i></div>
                             Barang Keluar
                         </a>
+                        <a class="nav-link" href="retur.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-balance-scale"></i></div>
+                            Barang Retur
+                        </a>
+                        <a class="nav-link" href="supplier.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
+                            Supplier
+                        </a>
                         <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Kelola Admin
                         </a>
                         <a class="nav-link" href="../logout.php">
                             Logout
                         </a>
-
                     </div>
                 </div>
-
             </nav>
         </div>
+
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
@@ -93,7 +103,6 @@ require '../cek.php';
                             while ($fetch = mysqli_fetch_array($ambildatastock)) {
                                 $barang = $fetch['namabarang'];
 
-
                             ?>
                                 <!-- <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -106,8 +115,10 @@ require '../cek.php';
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Kode Barang</th>
                                         <th>Gambar</th>
                                         <th>Nama Barang</th>
+                                        <th>Harga</th>
                                         <th>Deskripsi</th>
                                         <th>Stock</th>
                                         <th>Aksi</th>
@@ -115,17 +126,17 @@ require '../cek.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    ini_set('display_errors','1');
-                                    ini_set('display_startup_errors','1');
-                                    error_reporting(E_ALL);
-                                    $ambilsemuadatastock = mysqli_query($conn, "select * from stock");
+                                    $ambilsemuadatakode = mysqli_query($conn, "select * from stock s,kode_barang kb where kb.idkodebarang = s.idkodebarang");
                                     $i = 1;
-                                    while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
 
+                                    while ($data = mysqli_fetch_array($ambilsemuadatakode)) {
+                                        $namakodebarang = $data['namakodebarang'];
                                         $namabarang = $data['namabarang'];
-                                        $deskripsi = $data['deskripsi'];
+                                        $harga = $data['harga'];
+                                        $harga = $data['harga'];
                                         $stock = $data['stock'];
                                         $idb = $data['idbarang'];
+                                        $idkb = $data['idkodebarang'];
 
                                         //cek gambar
                                         $gambar = $data['image'];
@@ -136,12 +147,14 @@ require '../cek.php';
                                             //jika ada gambar
                                             $img = '<img src="../images/' . $gambar . '" class="zoomable">';
                                         }
-                                        
+
                                     ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
+                                            <td><?= $namakodebarang; ?></td>
                                             <td><?= $img; ?></td>
                                             <td><a href="detail.php?id=<?= $idb; ?>"><?= $namabarang; ?></a></td>
+                                            <td><?= $harga; ?></td>
                                             <td><?= $deskripsi; ?></td>
                                             <td><?= $stock; ?></td>
 
@@ -172,15 +185,13 @@ require '../cek.php';
                                                         <div class="modal-body">
                                                             <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control mb-3" required>
                                                             <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control mb-3" required>
+                                                            <input type="text" name="harga" value="<?= $harga; ?>" class="form-control mb-3" required>
                                                             <input type="file" name="file" class="form-control">
                                                             <br>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -206,9 +217,6 @@ require '../cek.php';
                                                             <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -247,17 +255,28 @@ require '../cek.php';
             <!-- Modal body -->
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <select name="kodebarangnya" class="form-control mb-3">
+                        <?php
+                        $ambilsemuadatanya = mysqli_query($conn, "select * from kode_barang");
+                        while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
+                            $namakodebarangnya = $fetcharray['namakodebarang'];
+                            $idkodebarangnya = $fetcharray['idkodebarang'];
+                        ?>
+                            <option value="<?= $idkodebarangnya; ?>"><?= $namakodebarangnya; ?></option>
+                        <?php
+
+                        }
+                        ?>
+                    </select>
                     <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control mb-3" required>
                     <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control mb-3" required>
+                    <input type="text" name="harga" placeholder="Harga Barang" class="form-control mb-3" required>
                     <input type="number" name="stock" placeholder="QTY" class="form-control mb-3" required>
                     <input type="file" name="file" class="form-control">
                     <br>
                     <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
                 </div>
             </form>
-
-            <!-- Modal footer -->
-
 
         </div>
     </div>

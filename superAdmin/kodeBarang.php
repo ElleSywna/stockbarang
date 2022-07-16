@@ -11,38 +11,22 @@ require '../cek.php';
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Stock barang</title>
+    <title>Kode barang</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <style>
-        .zoomable {
-            width: 100px;
-        }
-
-        .zoomable:hover {
-            transform: scale(2.5);
-            transition: 0.3s ease;
-
-        }
-
-        a {
-            text-decoration: none;
-            color: black;
-        }
-    </style>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="stockBarang.php">Lancar Abadi</a>
+        <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-
     </nav>
+
     <div id="layoutSidenav">
-    <div id="layoutSidenav_nav">
+        <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
@@ -50,32 +34,32 @@ require '../cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
+                        <a class="nav-link text-light" href="kodeBarang.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-bars" style="color:white ;"></i></div>
+                            Kode Barang
+                        </a>
                         <a class="nav-link" href="stockBarang.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
                             Stock Barang
                         </a>
                         <a class="nav-link" href="masuk.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
                             Barang Masuk
                         </a>
                         <a class="nav-link" href="keluar.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-minus"></i></div>
                             Barang Keluar
                         </a>
                         <a class="nav-link" href="retur.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-balance-scale"></i></div>
                             Barang Retur
                         </a>
                         <a class="nav-link" href="supplier.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Supplier
                         </a>
-                        <a class="nav-link" href="kodeBarang.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Kode Barang
-                        </a>
                         <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Kelola Admin
                         </a>
                         <a class="nav-link" href="../logout.php">
@@ -94,7 +78,7 @@ require '../cek.php';
                     <div class="card mb-4">
                         <div class="card-header">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                Tambah Barang
+                                Tambah Kode Barang
                             </button>
                         </div>
                         <div class="card-body">
@@ -115,7 +99,7 @@ require '../cek.php';
                                         $namakodebarang = $data['namakodebarang'];
                                         $deskripsi = $data['deskripsi'];
                                         $idkb = $data['idkodebarang'];
-                                        
+
                                     ?>
                                         <tr>
                                             <td><?= $i++; ?></td>
@@ -140,7 +124,7 @@ require '../cek.php';
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">Edit</h4>
+                                                        <h4 class="modal-title">Edit Kode Barang</h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                     </div>
 
@@ -154,9 +138,6 @@ require '../cek.php';
                                                             <button type="submit" class="btn btn-primary" name="updatekodebarang">Submit</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
-
 
                                                 </div>
                                             </div>
@@ -182,8 +163,6 @@ require '../cek.php';
                                                             <button type="submit" class="btn btn-danger" name="hapuskodebarang">Hapus</button>
                                                         </div>
                                                     </form>
-
-                                                    <!-- Modal footer -->
 
                                                 </div>
                                             </div>
@@ -215,7 +194,7 @@ require '../cek.php';
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Barang</h4>
+                <h4 class="modal-title">Tambah Kode Barang</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -228,9 +207,6 @@ require '../cek.php';
                     <button type="submit" class="btn btn-primary" name="kodebarang">Submit</button>
                 </div>
             </form>
-
-            <!-- Modal footer -->
-
 
         </div>
     </div>

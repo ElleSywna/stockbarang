@@ -17,10 +17,12 @@ if (isset($_POST['login'])) {
 
         if ($role == 'superadmin') {
             $_SESSION['log'] = 'logged';
+            $_SESSION['email'] = $email;
             $_SESSION['role'] = 'superadmin';
             header('location:superAdmin/dashboard.php');
         } else {
             $_SESSION['log'] = 'logged';
+            $_SESSION['email'] = $email;
             $_SESSION['role'] = 'admin';
             header('location:admin/dashboard.php');
         }
