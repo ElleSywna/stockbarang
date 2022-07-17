@@ -546,15 +546,36 @@ if (isset($_POST['hapuskodebarang'])) {
 
 
 
+/********************
+ * Add data admin
+ ********************/
+// if (isset($_POST['addadmin'])) {
+//     $username = $_POST['username'];
+//     $password = $_POST['password'];
+//     $role = $_POST['role'];
 
-//menambah admin baru
+//     $queryinsert = mysqli_query($conn, "insert into login (username, password, role)values('$username','$password', $role)");
+
+//     if ($queryinsert) {
+//         header('location:admin.php');
+//     } else {
+//         header('location:admin.php');
+//     }
+// }
+
+
+
+/********************
+ * Add data supplier
+ ********************/
 if (isset($_POST['addadmin'])) {
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
+    $role = $_POST['role'];
 
-    $queryinsert = mysqli_query($conn, "insert into login (email, password)values('$email','$password')");
+    $addtoadmin = mysqli_query($conn, "insert into login (username, password, role)values('$username','$password','$role')");
 
-    if ($queryinsert) {
+    if ($addtoadmin) {
         header('location:admin.php');
     } else {
         header('location:admin.php');
@@ -562,13 +583,17 @@ if (isset($_POST['addadmin'])) {
 }
 
 
-//edit data admin
+/********************
+ * Edit data admin
+ ********************/
 if (isset($_POST['updateadmin'])) {
-    $emailbaru = $_POST['emailadmin'];
+    //usernamebaru from admin> modaledit> input name
+    $usernamebaru = $_POST['usernamebaru'];
     $passwordbaru = $_POST['passwordbaru'];
+    $rolebaru = $_POST['rolebaru'];
     $idnya = $_POST['id'];
 
-    $queryupdate = mysqli_query($conn, "update login set email='$emailbaru',password='$passwordbaru' where iduser='$idnya'");
+    $queryupdate = mysqli_query($conn, "update login set username='$usernamebaru',password='$passwordbaru', role='$rolebaru' where iduser='$idnya'");
 
     if ($queryupdate) {
         header('location:admin.php');
@@ -577,7 +602,9 @@ if (isset($_POST['updateadmin'])) {
     }
 }
 
-//hapus admin
+/********************
+ * Delete data admin
+ ********************/
 if (isset($_POST['hapusadmin'])) {
     $id = $_POST['id'];
 

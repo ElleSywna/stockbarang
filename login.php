@@ -3,10 +3,10 @@ require 'function.php';
 
 //cek login
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
     //cocokin database dan cek user
-    $cekdatabase = mysqli_query($conn, "SELECT * FROM login where email='$email' and password='$password'");
+    $cekdatabase = mysqli_query($conn, "SELECT * FROM login where username='$username' and password='$password'");
     //hitung rownya
     $hitung = mysqli_num_rows($cekdatabase);
 
@@ -17,12 +17,12 @@ if (isset($_POST['login'])) {
 
         if ($role == 'superadmin') {
             $_SESSION['log'] = 'logged';
-            $_SESSION['email'] = $email;
+            $_SESSION['username'] = $username;
             $_SESSION['role'] = 'superadmin';
             header('location:superAdmin/dashboard.php');
         } else {
             $_SESSION['log'] = 'logged';
-            $_SESSION['email'] = $email;
+            $_SESSION['username'] = $username;
             $_SESSION['role'] = 'admin';
             header('location:admin/dashboard.php');
         }
@@ -31,10 +31,6 @@ if (isset($_POST['login'])) {
     };
 };
 
-// if (!isset($_SESSION['log'])) {
-// } else {
-//     header('location:stockBarang.php');
-// }
 
 ?>
 <!DOCTYPE html>
@@ -76,8 +72,8 @@ if (isset($_POST['login'])) {
                                 <div class="card-body">
                                     <form method="post">
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
+                                            <input class="form-control" name="username" id="inputUsername" type="username" placeholder="nama user" />
+                                            <label for="inputEmail">Username</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Password" />

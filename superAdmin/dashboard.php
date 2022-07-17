@@ -19,26 +19,29 @@ require '../cek.php';
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color:#1f9c7d;">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <div class="collapse navbar-collapse justify-content-end">
+            <i class="fa-solid fa-circle-user m-2" style="color:white ; height:25px"></i>
+            <h6 style="margin: 5px 35px 5px 5px; font-size:18px; color:white">
+                <?php
+                echo $_SESSION['username'];
+                ?>
+            </h6>
+        </div>
     </nav>
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark mt-3" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <p>HALO 
-                            <?php
-                            echo $_SESSION['email'];
-                            // echo $_SESSION['log'];
-                            ?>
-                        </p>
-                        <a class="nav-link text-light" href="dashboard.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt" style="color:white ;"></i></div>
+
+                        <a class="nav-link active" href="dashboard.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
                         <a class="nav-link" href="kodeBarang.php">
@@ -125,7 +128,7 @@ require '../cek.php';
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                            <a href="/superAdmin/masuk.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/masuk.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -149,7 +152,7 @@ require '../cek.php';
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                            <a href="/superAdmin/keluar.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/keluar.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -173,7 +176,7 @@ require '../cek.php';
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                            <a href="/superAdmin/retur.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/retur.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -197,23 +200,31 @@ require '../cek.php';
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                            <a href="/superAdmin/supplier.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/supplier.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>
-                
 
                     <div class="col-lg-3 col-xs-6">
-                        <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+                        <div class="card text-dark bg-info mb-4 text-white" style="max-width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title">Info card title</h5>
-                            </div>
-                            <div class="d-flex">
-                                <p class="card-text mx-3 mt-3">Admin</p>
-                                <i class="fa-solid fa-users icon-dashboard1 ms-auto px-4 align-self-center"></i>
+                                <h5>User</h5>
+                                <div class="d-flex">
+                                    <?php
+                                    $dash_user_query = "SELECT * from login";
+                                    $dash_user_query_run = mysqli_query($conn, $dash_user_query);
+
+                                    if ($user_total = mysqli_num_rows($dash_user_query_run)) {
+                                        echo '<h2 class="mx-2">' . $user_total . '</h2>';
+                                    } else {
+                                        echo '<h4 class="mt-2">No data</h4>';
+                                    }
+                                    ?>
+                                    <i class="fa-solid fa-users icon-dashboard1 ms-auto align-self-center"></i>
+                                </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                                <a href="/superAdmin/stockBarang.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/admin.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

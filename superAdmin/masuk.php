@@ -18,16 +18,24 @@ require '../cek.php';
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark" style="background-color:#1f9c7d;">
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" style="font-weight:bold ;" href="dashboard.php">Lancar Abadi</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <div class="collapse navbar-collapse justify-content-end">
+            <i class="fa-solid fa-circle-user m-2" style="color:white ; height:25px"></i>
+            <h6 style="margin: 5px 35px 5px 5px; font-size:18px; color:white">
+                <?php
+                echo $_SESSION['username'];
+                ?>
+            </h6>
+        </div>
     </nav>
 
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion sb-sidenav-dark mt-3" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <a class="nav-link" href="dashboard.php">
@@ -42,8 +50,8 @@ require '../cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
                             Stock Barang
                         </a>
-                        <a class="nav-link text-light" href="masuk.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-plus" style="color:white ;"></i></div>
+                        <a class="nav-link active" href="masuk.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
                             Barang Masuk
                         </a>
                         <a class="nav-link" href="keluar.php">
@@ -95,6 +103,7 @@ require '../cek.php';
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
                                         <th>Keterangan</th>
+                                        <th>Admin</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -110,9 +119,8 @@ require '../cek.php';
                                         } else {
                                             $ambilsemuadatastock = mysqli_query($conn, "select * from masuk m,stock s where s.idbarang = m.idbarang");
                                         }
-
                                     } else {
-                                        $ambilsemuadatastock = mysqli_query($conn, "select * from masuk m,stock s where s.idbarang = m.idbarang");
+                                        $ambilsemuadatastock = mysqli_query($conn, "select * from masuk m,stock s, login l where s.idbarang = m.idbarang");
                                     }
 
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
@@ -122,6 +130,8 @@ require '../cek.php';
                                         $namabarang = $data['namabarang'];
                                         $qty = $data['qty'];
                                         $keterangan = $data['keterangan'];
+                                        $username = $data['username'];
+
 
                                     ?>
                                         <tr>
@@ -129,6 +139,7 @@ require '../cek.php';
                                             <td><?= $namabarang; ?></td>
                                             <td><?= $qty; ?></td>
                                             <td><?= $keterangan; ?></td>
+                                            <td><?= $username; ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $idm; ?>">
                                                     Edit
