@@ -96,7 +96,7 @@ require '../cek.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4 mb-4">Stock barang</h1>
+                    <h1 class="mt-4 mb-4">Stock Barang</h1>
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -107,15 +107,15 @@ require '../cek.php';
                         </div>
                         <div class="card-body">
                             <?php
-                            $ambildatastock = mysqli_query($conn, "select * from stock where stock < 50");
+                            $ambildatastock = mysqli_query($conn, "select * from stock where stock < 10");
                             while ($fetch = mysqli_fetch_array($ambildatastock)) {
                                 $barang = $fetch['namabarang'];
 
                             ?>
-                                <!-- <div class="alert alert-danger alert-dismissible">
+                                <div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    <strong>Warning</strong> Stock <?= $barang; ?> Sudah kurang dari 50
-                                </div> -->
+                                    <strong>Warning</strong> Stock <?= $barang; ?> Sudah kurang dari 10
+                                </div>
                             <?php
                             }
                             ?>
@@ -134,13 +134,13 @@ require '../cek.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ambilsemuadatakode = mysqli_query($conn, "select * from stock s,kode_barang kb where kb.idkodebarang = s.idkodebarang");
+                                    $ambilsemuadatakode = mysqli_query($conn, "select * from stock s,kode_barang kb where kb.idkodebarang = s.idkodebarang order by idbarang DESC");
                                     $i = 1;
 
                                     while ($data = mysqli_fetch_array($ambilsemuadatakode)) {
                                         $namakodebarang = $data['namakodebarang'];
+                                        $deskripsi = $data['deskripsi'];
                                         $namabarang = $data['namabarang'];
-                                        $harga = $data['harga'];
                                         $harga = $data['harga'];
                                         $stock = $data['stock'];
                                         $idb = $data['idbarang'];
@@ -192,7 +192,6 @@ require '../cek.php';
                                                     <form method="post" enctype="multipart/form-data">
                                                         <div class="modal-body">
                                                             <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control mb-3" required>
-                                                            <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control mb-3" required>
                                                             <input type="text" name="harga" value="<?= $harga; ?>" class="form-control mb-3" required>
                                                             <input type="file" name="file" class="form-control">
                                                             <br>
@@ -263,7 +262,8 @@ require '../cek.php';
             <!-- Modal body -->
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
-                    <select name="kodebarangnya" class="form-control mb-3">
+                    <select name="kodebarangnya" class="form-control mb-3" required>
+                        <!-- <option hidden>Pilih Kode Barang</option> -->
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from kode_barang");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
@@ -277,7 +277,6 @@ require '../cek.php';
                         ?>
                     </select>
                     <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control mb-3" required>
-                    <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control mb-3" required>
                     <input type="text" name="harga" placeholder="Harga Barang" class="form-control mb-3" required>
                     <input type="number" name="stock" placeholder="QTY" class="form-control mb-3" required>
                     <input type="file" name="file" class="form-control">

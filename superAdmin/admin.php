@@ -95,7 +95,7 @@ require '../cek.php';
                                     <tr>
                                         <th>No</th>
                                         <th>Username</th>
-                                        <th>Roles</th>
+                                        <th>Role</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -148,8 +148,9 @@ require '../cek.php';
                                                                 <label style="font-weight:bold ; ">Password</label>
                                                                 <input type="password" name="passwordbaru" value="<?= $password; ?>" class="form-control mb-3" required>
                                                             </div>
+                                                            <input type="hidden" name="rolebaru" value="admin" class="form-control mb-3" required>
                                                             <br>
-                                                            <input type="hidden" name="idu" value="<?= $idu; ?>">
+                                                            <input type="hidden" name="id" value="<?= $idu; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updateadmin">Submit</button>
                                                         </div>
                                                     </form>
@@ -173,7 +174,7 @@ require '../cek.php';
                                                     <form method="post">
                                                         <div class="modal-body">
                                                             Apakah anda yakin menghapus <?= $username; ?>?
-                                                            <input type="hidden" name="idu" value="<?= $idu; ?>">
+                                                            <input type="hidden" name="id" value="<?= $idu; ?>">
                                                             <br><br>
                                                             <button type="submit" class="d-flex btn btn-danger" name="hapusadmin">Hapus</button>
                                                         </div>

@@ -4,9 +4,8 @@ require '../cek.php';
 //mendapatkan id barang
 $idbarang = $_GET['id'];
 //get informasi database
-$get = mysqli_query($conn, "select * from stock, kode_barang where idbarang='$idbarang'");
+$get = mysqli_query($conn, "select * from stock where idbarang='$idbarang'");
 $fetch = mysqli_fetch_assoc($get);
-
 //set var
 $namabarang = $fetch['namabarang'];
 $deskripsi = $fetch['deskripsi'];
@@ -38,8 +37,8 @@ if ($gambar == null) {
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <style>
         .zoomable {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
         }
 
         .zoomable:hover {
@@ -99,10 +98,6 @@ if ($gambar == null) {
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Supplier
                         </a>
-                        <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Kelola Admin
-                        </a>
                         <a class="nav-link" href="../logout.php">
                             Logout
                         </a>
@@ -114,24 +109,22 @@ if ($gambar == null) {
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="">Detail Barang</h1>
-                    
-                    <div class="card mb-5 mt-4">
-                        
+                    <h1 class="mt-4 mb-4">Detail Barang</h1>
+                    <div class="card mb-4 mt-4">
                         <div class="card-header">
-                            <h2 class="mb-4"><?= $namabarang; ?> </h2>
+                            <h2><?= $namabarang; ?> </h2>
                             <?= $img ?>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">Deskripsi</div>
-                                <div class="col-md-9">: <?= $deskripsi; ?></div>
+                                <div class="col-md-9">:<?= $deskripsi; ?></div>
                             </div>
 
 
                             <div class="row">
                                 <div class="col-md-3">Stock</div>
-                                <div class="col-md-9">: <?= $stock; ?></div>
+                                <div class="col-md-9">:<?= $stock; ?></div>
                             </div>
                             <br><br>
                             <!-- BarangMasuk -->
@@ -141,7 +134,7 @@ if ($gambar == null) {
                                     <tr>
                                         <th>No</th>
                                         <th>Tanggal</th>
-                                        <th>Keterangan</th>
+                                        <th>Deskripsi</th>
                                         <th>Quantity</th>
                                     </tr>
                                 </thead>
@@ -173,8 +166,8 @@ if ($gambar == null) {
                             </table>
                             <br><br>
                             <!-- Barang Keluar -->
-                            <h3 class="mt-4">Barang Keluar</h3>
-                            <table class="table table-bordered bg-light" id="barangkeluar">
+                            <h3>Barang Keluar</h3>
+                            <table class="table table-bordered" id="barangkeluar">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -191,42 +184,8 @@ if ($gambar == null) {
                                         $tanggal = $fetch['tanggal'];
                                         $penerima = $fetch['penerima'];
                                         $quantity = $fetch['qty'];
-                                    ?>
-
-                                        <tr>
-                                            <td><?= $i++; ?></td>
-                                            <td><?= $tanggal; ?></td>
-                                            <td><?= $penerima; ?></td>
-                                            <td><?= $quantity; ?></td>
-                                        </tr>
 
 
-                                    <?php
-                                    };
-                                    ?>
-                                </tbody>
-                            </table>
-                            <br><br>
-
-                            <!-- Barang Retur -->
-                            <h3 class="mt-4">Barang Retur</h3>
-                            <table class="table table-bordered" id="barangkeluar">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Tanggal</th>
-                                        <th>Keterangan</th>
-                                        <th>Quantity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $ambildatakeluar = mysqli_query($conn, "select * from retur where idbarang='$idbarang'");
-                                    $i = 1;
-                                    while ($fetch = mysqli_fetch_array($ambildatakeluar)) {
-                                        $tanggal = $fetch['tanggal'];
-                                        $keterangan = $fetch['keterangan'];
-                                        $quantity = $fetch['qty'];
                                     ?>
 
                                         <tr>
@@ -236,11 +195,17 @@ if ($gambar == null) {
                                             <td><?= $quantity; ?></td>
                                         </tr>
 
+
                                     <?php
                                     };
                                     ?>
                                 </tbody>
                             </table>
+
+
+
+
+
 
                         </div>
                     </div>
@@ -257,5 +222,34 @@ if ($gambar == null) {
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
 </body>
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Tambah Barang</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control mb-3" required>
+                    <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control mb-3" required>
+                    <input type="number" name="stock" placeholder="QTY" class="form-control mb-3" required>
+                    <input type="file" name="file" class="form-control">
+                    <br>
+                    <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+                </div>
+            </form>
+
+            <!-- Modal footer -->
+
+
+        </div>
+    </div>
+</div>
 
 </html>

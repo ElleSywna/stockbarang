@@ -88,6 +88,7 @@ require '../cek.php';
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
                                 Tambah Barang
                             </button>
+                            <a href="exportKeluar.php" class="btn btn-info">Export Data</a>
                             <br>
                             <form method="post" class="d-flex w-50 mt-3 mb-2">
                                 <input type="date" name="tgl_mulai" class="d-flex form-control">
@@ -114,12 +115,12 @@ require '../cek.php';
                                         $selesai = $_POST['tgl_selesai'];
 
                                         if ($mulai != null || $selesai != null) {
-                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) ");
+                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) order by idkeluar DESC");
                                         } else {
-                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang");
+                                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang order by idkeluar DESC");
                                         }
                                     } else {
-                                        $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang");
+                                        $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang order by idkeluar DESC");
                                     }
 
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
@@ -161,8 +162,8 @@ require '../cek.php';
                                                     <form method="post">
                                                         <div class="modal-body">
 
-                                                            <input type="text" name="penerima" value="<?= $penerima; ?>" class="form-control mb-3" required>
-                                                            <input type="number" name="qty" value="<?= $qty; ?>" class="form-control mb-3" required>
+                                                            <input type="text" name="penerima" placeholder="Penerima" value="<?= $penerima; ?>" class="form-control mb-3" required>
+                                                            <input type="number" name="qty" placeholder="QTY" value="<?= $qty; ?>" class="form-control mb-3" required>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                             <input type="hidden" name="idk" value="<?= $idk; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updatebarangkeluar">Submit</button>
@@ -235,7 +236,8 @@ require '../cek.php';
             <!-- Modal body -->
             <form method="post">
                 <div class="modal-body">
-                    <select name="barangnya" class="form-control mb-3">
+                    <select name="barangnya" class="form-control mb-3" required>
+                        <option hidden required>Pilih Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
@@ -248,7 +250,7 @@ require '../cek.php';
                         }
                         ?>
                     </select>
-                    <input type="number" name="qty" placeholder="QTY" class="form-control mb-3" required>
+                    <input type="number" name="qty" placeholder="QTY" min="1" class="form-control mb-3" required>
                     <input type="text" name="penerima" placeholder="Penerima" class="form-control mb-3" required>
                     <button type="submit" class="btn btn-primary" name="addbarangkeluar">Submit</button>
                 </div>

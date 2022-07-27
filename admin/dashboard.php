@@ -40,8 +40,8 @@ require '../cek.php';
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        <a class="nav-link text-light" href="dashboard.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt" style="color:white ;"></i></div>
+                        <a class="nav-link active" href="dashboard.php">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
                         <a class="nav-link" href="kodeBarang.php">
@@ -67,10 +67,6 @@ require '../cek.php';
                         <a class="nav-link" href="supplier.php">
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Supplier
-                        </a>
-                        <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Kelola Admin
                         </a>
                         <a class="nav-link" href="../logout.php">
                             Logout
@@ -205,18 +201,26 @@ require '../cek.php';
                         </div>
                     </div>
 
-
                     <div class="col-lg-3 col-xs-6">
-                        <div class="card text-dark bg-info mb-3" style="max-width: 18rem;">
+                        <div class="card text-dark bg-info mb-4 text-white" style="max-width: 18rem;">
                             <div class="card-body">
-                                <h5 class="card-title">Info card title</h5>
-                            </div>
-                            <div class="d-flex">
-                                <p class="card-text mx-3 mt-3">Admin</p>
-                                <i class="fa-solid fa-users icon-dashboard1 ms-auto px-4 align-self-center"></i>
+                                <h5>User</h5>
+                                <div class="d-flex">
+                                    <?php
+                                    $dash_user_query = "SELECT * from login";
+                                    $dash_user_query_run = mysqli_query($conn, $dash_user_query);
+
+                                    if ($user_total = mysqli_num_rows($dash_user_query_run)) {
+                                        echo '<h2 class="mx-2">' . $user_total . '</h2>';
+                                    } else {
+                                        echo '<h4 class="mt-2">No data</h4>';
+                                    }
+                                    ?>
+                                    <i class="fa-solid fa-users icon-dashboard1 ms-auto align-self-center"></i>
+                                </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                                <a href="/superAdmin/stockBarang.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="/superAdmin/admin.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

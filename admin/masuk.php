@@ -66,10 +66,6 @@ require '../cek.php';
                             <div class="sb-nav-link-icon"><i class="fas fa-truck"></i></div>
                             Supplier
                         </a>
-                        <a class="nav-link" href="admin.php">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                            Kelola Admin
-                        </a>
                         <a class="nav-link" href="../logout.php">
                             Logout
                         </a>
@@ -164,8 +160,8 @@ require '../cek.php';
                                                     <form method="post">
                                                         <div class="modal-body">
 
-                                                            <input type="text" name="keterangan" placeholder="Keterangan" value="<?= $keterangan; ?>" class="form-control mb-3" required>
-                                                            <input type="number" name="qty" placeholder="QTY" value="<?= $qty; ?>" class="form-control mb-3" required>
+                                                            <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control mb-3" required>
+                                                            <input type="number" name="qty" value="<?= $qty; ?>" class="form-control mb-3" required>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                             <input type="hidden" name="idm" value="<?= $idm; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
@@ -252,7 +248,7 @@ require '../cek.php';
                         ?>
                     </select>
                     <input type="number" name="qty" placeholder="QTY" class="form-control mb-3" required>
-                    <input type="text" name="penerima" placeholder="Keterangan" class="form-control mb-3" required>
+                    <input type="text" name="penerima" placeholder="Penerima" class="form-control mb-3" required>
                     <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
                 </div>
             </form>

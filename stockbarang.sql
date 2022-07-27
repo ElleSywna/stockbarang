@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 14, 2022 at 02:54 PM
+-- Generation Time: Jul 27, 2022 at 04:30 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -40,8 +40,32 @@ CREATE TABLE `keluar` (
 --
 
 INSERT INTO `keluar` (`idkeluar`, `idbarang`, `tanggal`, `penerima`, `qty`) VALUES
-(1, 12, '2022-07-14 13:36:20', 'toko lama', 5),
-(2, 12, '2022-07-14 13:56:45', 'toko lama', 1);
+(24, 87, '2022-07-17 08:08:11', 'pak surya', 2),
+(25, 84, '2022-07-22 08:08:47', 'ibu-ibu', 5),
+(26, 87, '2022-07-22 08:09:15', 'pak raka', 10),
+(27, 88, '2022-07-22 08:09:37', 'reseller', 50),
+(28, 87, '2022-07-22 08:09:52', 'bu nur', 7),
+(29, 84, '2022-07-22 10:02:48', 'reseller', 105);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kode_barang`
+--
+
+CREATE TABLE `kode_barang` (
+  `idkodebarang` int(11) NOT NULL,
+  `namakodebarang` varchar(15) NOT NULL,
+  `deskripsi` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `kode_barang`
+--
+
+INSERT INTO `kode_barang` (`idkodebarang`, `namakodebarang`, `deskripsi`) VALUES
+(12, 'W21-UGG', 'lampu kecil / 17K'),
+(13, 'J22-UF2', 'alat kecil / 10k');
 
 -- --------------------------------------------------------
 
@@ -51,7 +75,7 @@ INSERT INTO `keluar` (`idkeluar`, `idbarang`, `tanggal`, `penerima`, `qty`) VALU
 
 CREATE TABLE `login` (
   `iduser` int(11) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `password` varchar(20) NOT NULL,
   `role` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -60,9 +84,9 @@ CREATE TABLE `login` (
 -- Dumping data for table `login`
 --
 
-INSERT INTO `login` (`iduser`, `email`, `password`, `role`) VALUES
-(1, 'superadmin@gmail.com', 'superadmin', 'superadmin'),
-(2, 'admin@gmail.com', 'admin', 'admin');
+INSERT INTO `login` (`iduser`, `username`, `password`, `role`) VALUES
+(1, 'superadmin', 'superadmin', 'superadmin'),
+(2, 'admin', 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -74,7 +98,7 @@ CREATE TABLE `masuk` (
   `idmasuk` int(11) NOT NULL,
   `idbarang` int(11) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `keterangan` varchar(25) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -83,13 +107,10 @@ CREATE TABLE `masuk` (
 --
 
 INSERT INTO `masuk` (`idmasuk`, `idbarang`, `tanggal`, `keterangan`, `qty`) VALUES
-(1, 4, '2022-07-11 13:40:50', 'toko lama', 100),
-(2, 13, '2022-07-11 14:45:06', 'toko lama', 100),
-(3, 12, '2022-07-13 12:35:01', 'toko lama', 100),
-(4, 12, '2022-07-14 04:23:20', 'toko lama', 2),
-(5, 12, '2022-07-14 04:23:43', 'toko lama', 100),
-(6, 12, '2022-07-14 13:56:57', 'toko lama', 100),
-(7, 12, '2022-07-14 14:06:17', 'toko lama', 100);
+(8, 84, '2022-07-14 08:04:15', 'dari toko Sinar Seroja Elektrik', 10),
+(9, 87, '2022-07-14 08:05:05', 'toko online Gudang Listrik', 5),
+(10, 87, '2022-07-22 08:05:42', 'Karya Jaya Elektrik', 10),
+(11, 88, '2022-07-22 08:06:34', 'toko online Aditama Elektrik', 50);
 
 -- --------------------------------------------------------
 
@@ -101,7 +122,7 @@ CREATE TABLE `retur` (
   `idretur` int(11) NOT NULL,
   `idbarang` int(11) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `penerima` varchar(25) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
   `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -109,9 +130,10 @@ CREATE TABLE `retur` (
 -- Dumping data for table `retur`
 --
 
-INSERT INTO `retur` (`idretur`, `idbarang`, `tanggal`, `penerima`, `qty`) VALUES
-(2, 12, '2022-07-14 13:45:11', 'toko lama', 100),
-(3, 12, '2022-07-14 13:56:30', 'toko lama', 100);
+INSERT INTO `retur` (`idretur`, `idbarang`, `tanggal`, `keterangan`, `qty`) VALUES
+(11, 84, '2022-07-19 08:11:51', 'tidak nyala / Karya Jaya Elektrik', 2),
+(12, 87, '2022-07-22 08:12:06', 'rusak / Aloy Jaya Elektrik', 7),
+(13, 87, '2022-07-22 08:12:31', 'lecet / Aloy Jaya Elektrik', 3);
 
 -- --------------------------------------------------------
 
@@ -121,8 +143,9 @@ INSERT INTO `retur` (`idretur`, `idbarang`, `tanggal`, `penerima`, `qty`) VALUES
 
 CREATE TABLE `stock` (
   `idbarang` int(11) NOT NULL,
+  `idkodebarang` int(11) NOT NULL,
   `namabarang` varchar(25) NOT NULL,
-  `deskripsi` varchar(50) NOT NULL,
+  `harga` int(11) NOT NULL,
   `stock` int(11) NOT NULL,
   `image` varchar(99) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -131,10 +154,32 @@ CREATE TABLE `stock` (
 -- Dumping data for table `stock`
 --
 
-INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stock`, `image`) VALUES
-(12, 'samsung', 'handphone', 82, 'eef3be31de7c991749b191285b5ecffe.png'),
-(13, 'iphone X', 'handphone', 102, '589de840e994331e5f0b78c1bd219b80.png'),
-(16, 'sepatu', 'kendaraan', 2, NULL);
+INSERT INTO `stock` (`idbarang`, `idkodebarang`, `namabarang`, `harga`, `stock`, `image`) VALUES
+(84, 12, 'Lampu Hannochs 7 watt', 35000, 8, 'fffa52a9ff2dd8dd450ae7e9ac48560e.jpg'),
+(87, 13, 'Stop kontak galleo', 45000, 31, 'f977375bb1c41f22606be7e6f215666b.jpg'),
+(88, 13, 'Baterai abc aaa', 3000, 200, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `supplier`
+--
+
+CREATE TABLE `supplier` (
+  `idsupplier` int(11) NOT NULL,
+  `namasupplier` varchar(50) NOT NULL,
+  `alamat` text NOT NULL,
+  `kontak` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`idsupplier`, `namasupplier`, `alamat`, `kontak`) VALUES
+(21, 'Aloy Jaya Elektrik', 'Taman Harapan Baru blok cc/5', '081288775566'),
+(22, 'CV. Karya Jaya Elektrik', 'Tangerang', '08552121'),
+(23, 'Sinar Setoja Elektrik', 'jalan seroja, Bekasi Utara', 'sinarseroja@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -145,6 +190,12 @@ INSERT INTO `stock` (`idbarang`, `namabarang`, `deskripsi`, `stock`, `image`) VA
 --
 ALTER TABLE `keluar`
   ADD PRIMARY KEY (`idkeluar`);
+
+--
+-- Indexes for table `kode_barang`
+--
+ALTER TABLE `kode_barang`
+  ADD PRIMARY KEY (`idkodebarang`);
 
 --
 -- Indexes for table `login`
@@ -171,6 +222,12 @@ ALTER TABLE `stock`
   ADD PRIMARY KEY (`idbarang`);
 
 --
+-- Indexes for table `supplier`
+--
+ALTER TABLE `supplier`
+  ADD PRIMARY KEY (`idsupplier`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -178,7 +235,13 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT for table `keluar`
 --
 ALTER TABLE `keluar`
-  MODIFY `idkeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idkeluar` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `kode_barang`
+--
+ALTER TABLE `kode_barang`
+  MODIFY `idkodebarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `login`
@@ -190,19 +253,25 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `masuk`
 --
 ALTER TABLE `masuk`
-  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idmasuk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `retur`
 --
 ALTER TABLE `retur`
-  MODIFY `idretur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idretur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `idbarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idbarang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `idsupplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

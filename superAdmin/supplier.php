@@ -2,6 +2,7 @@
 require '../function.php';
 require '../cek.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,9 +103,9 @@ require '../cek.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ambilsemuadatasupplier = mysqli_query($conn, "select * from supplier");
+                                    $ambilsemuadatasupplier = mysqli_query($conn, "select * from supplier order by idsupplier DESC");
                                     $i = 1;
-                                    while ($data = mysqli_fetch_array($ambilsemuadatasupplier)) {
+                                    while ($data = mysqli_fetch_assoc($ambilsemuadatasupplier)) {
                                         $namasupplier = $data['namasupplier'];
                                         $alamat = $data['alamat'];
                                         $kontak = $data['kontak'];

@@ -20,14 +20,19 @@ if (isset($_POST['login'])) {
             $_SESSION['username'] = $username;
             $_SESSION['role'] = 'superadmin';
             header('location:superAdmin/dashboard.php');
-        } else {
+        } else if ($role == 'admin') {
             $_SESSION['log'] = 'logged';
             $_SESSION['username'] = $username;
             $_SESSION['role'] = 'admin';
             header('location:admin/dashboard.php');
         }
     } else {
-        header('location:login.php');
+            echo '
+            <script>
+                alert("Email atau Password Salah");
+                window.location.href="login.php";
+            </script>
+            ';
     };
 };
 

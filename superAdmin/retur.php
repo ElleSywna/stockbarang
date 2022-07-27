@@ -96,27 +96,27 @@ require '../cek.php';
                                         <th>Tanggal</th>
                                         <th>Nama Barang</th>
                                         <th>Jumlah</th>
-                                        <th>Penerima</th>
+                                        <th>Keterangan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ambilsemuadatastock = mysqli_query($conn, "select * from retur r,stock s where s.idbarang=r.idbarang");
+                                    $ambilsemuadatastock = mysqli_query($conn, "select * from retur r,stock s where s.idbarang=r.idbarang order by idretur DESC");
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                         $idr = $data['idretur'];
                                         $idb = $data['idbarang'];
                                         $tanggal = $data['tanggal'];
                                         $namabarang = $data['namabarang'];
                                         $qty = $data['qty'];
-                                        $penerima = $data['penerima'];
+                                        $keterangan = $data['keterangan'];
 
                                     ?>
                                         <tr>
                                             <td><?= $tanggal ?></td>
                                             <td><?= $namabarang; ?></td>
                                             <td><?= $qty; ?></td>
-                                            <td><?= $penerima; ?></td>
+                                            <td><?= $keterangan; ?></td>
                                             <td>
                                                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $idr; ?>">
                                                     Edit
@@ -142,7 +142,7 @@ require '../cek.php';
                                                     <form method="post">
                                                         <div class="modal-body">
 
-                                                            <input type="text" name="penerima" value="<?= $penerima; ?>" class="form-control mb-3" required>
+                                                            <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control mb-3" required>
                                                             <input type="number" name="qty" value="<?= $qty; ?>" class="form-control mb-3" required>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                             <input type="hidden" name="idr" value="<?= $idr; ?>">
@@ -215,7 +215,8 @@ require '../cek.php';
             <!-- Modal body -->
             <form method="post">
                 <div class="modal-body">
-                    <select name="barangnya" class="form-control mb-3">
+                    <select name="barangnya" class="form-control mb-3" required>
+                        <option hidden>Pilih Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
@@ -229,7 +230,7 @@ require '../cek.php';
                         ?>
                     </select>
                     <input type="number" name="qty" placeholder="QTY" class="form-control mb-3" required>
-                    <input type="text" name="penerima" placeholder="Penerima" class="form-control mb-3" required>
+                    <input type="text" name="keterangan" placeholder="Keterangan" class="form-control mb-3" required>
                     <button type="submit" class="btn btn-primary" name="addbarangretur">Submit</button>
                 </div>
             </form>
