@@ -216,7 +216,7 @@ require '../cek.php';
             <form method="post">
                 <div class="modal-body">
                     <select name="barangnya" class="form-control mb-3" required>
-                        <option hidden>Pilih Barang</option>
+                        <option hidden value="">Pilih Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {

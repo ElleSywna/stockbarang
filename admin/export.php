@@ -5,7 +5,7 @@ require '../cek.php';
 <html>
 
 <head>
-    <title>Table Stock Barang</title>
+    <title>Laporan Stock Barang</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,16 +17,18 @@ require '../cek.php';
 </head>
 
 <body>
-    <div class="container">
-        <h2>Stock Bahan</h2>
-        <h4>Inventory</h4>
-        <div class="data-tables datatable-dark">
+    <div class="container mt-4">
+        <h2>Laporan Stock Barang</h2>
+        <h4>(Inventori)</h4>
+        <div class="data-tables datatable-dark m-3 mt-4">
 
             <table id="mauexport">
                 <thead>
                     <tr>
                         <th>No</th>
+                        <th>Kode Barang</th>
                         <th>Nama Barang</th>
+                        <th>Harga</th>
                         <th>Deskripsi</th>
                         <th>Stock</th>
 
@@ -34,22 +36,26 @@ require '../cek.php';
                 </thead>
                 <tbody>
                     <?php
-                    $ambilsemuadatastock = mysqli_query($conn, "select * from stock");
+                    $ambilsemuadatakode = mysqli_query($conn, "select * from stock s,kode_barang kb where kb.idkodebarang = s.idkodebarang order by idbarang DESC");
                     $i = 1;
-                    while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
 
-                        $namabarang = $data['namabarang'];
+                    while ($data = mysqli_fetch_array($ambilsemuadatakode)) {
+                        $namakodebarang = $data['namakodebarang'];
                         $deskripsi = $data['deskripsi'];
+                        $namabarang = $data['namabarang'];
+                        $harga = $data['harga'];
                         $stock = $data['stock'];
                         $idb = $data['idbarang'];
+                        $idkb = $data['idkodebarang'];
 
                     ?>
                         <tr>
                             <td><?= $i++; ?></td>
+                            <td><?php echo $namakodebarang; ?></td>
                             <td><?php echo $namabarang; ?></td>
+                            <td><?php echo $harga; ?></td>
                             <td><?php echo $deskripsi; ?></td>
                             <td><?php echo $stock; ?></td>
-
                         </tr>
 
 

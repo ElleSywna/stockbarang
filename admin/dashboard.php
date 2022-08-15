@@ -220,7 +220,7 @@ require '../cek.php';
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-center">
-                                <a href="/superAdmin/admin.php" class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
+                                <a class="small-box-footer text-white">More info <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
                     </div>

@@ -92,7 +92,7 @@ require '../cek.php';
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4 mb-4">Stock barang</h1>
+                    <h1 class="mt-4 mb-4">Stock Barang</h1>
 
                     <div class="card mb-4">
                         <div class="card-header">
@@ -188,7 +188,6 @@ require '../cek.php';
                                                     <form method="post" enctype="multipart/form-data">
                                                         <div class="modal-body">
                                                             <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control mb-3" required>
-                                                            <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control mb-3" required>
                                                             <input type="text" name="harga" value="<?= $harga; ?>" class="form-control mb-3" required>
                                                             <input type="file" name="file" class="form-control">
                                                             <br>
@@ -260,7 +259,7 @@ require '../cek.php';
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <select name="kodebarangnya" class="form-control mb-3" required>
-                        <!-- <option hidden>Pilih Kode Barang</option> -->
+                        <option value="" hidden>Pilih Kode Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from kode_barang");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {

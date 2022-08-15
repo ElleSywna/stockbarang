@@ -98,7 +98,7 @@ require '../cek.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $ambilsemuadatastock = mysqli_query($conn, "select * from retur r,stock s where s.idbarang=r.idbarang");
+                                    $ambilsemuadatastock = mysqli_query($conn, "select * from retur r,stock s where s.idbarang=r.idbarang order by idretur DESC");
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                         $idr = $data['idretur'];
                                         $idb = $data['idbarang'];
@@ -212,7 +212,7 @@ require '../cek.php';
             <form method="post">
                 <div class="modal-body">
                     <select name="barangnya" class="form-control mb-3" required>
-                        <option hidden>Pilih Barang</option>
+                        <option hidden value="">Pilih Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {

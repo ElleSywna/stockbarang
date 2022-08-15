@@ -26,27 +26,26 @@ if (isset($_POST['addnewbarang'])) {
     $image = md5(uniqid($nama, true) . time()) . '.' . $ekstensi; //menghubungkan file 
 
     //cek nama barang
-    $cek=mysqli_query($conn,"select * from stock where namabarang='$namabarang'");
-    $hitung=mysqli_num_rows($cek);
-    
+    $cek = mysqli_query($conn, "select * from stock where namabarang='$namabarang'");
+    $hitung = mysqli_num_rows($cek);
 
-    if ($ukuran == 0 ) {
+
+    if ($ukuran == 0) {
         //validasi nama barang yang sama
         if ($hitung < 1) {
-        $addtotable = mysqli_query($conn, "insert into stock (idkodebarang,namabarang,harga,stock)values('$kodebarangnya','$namabarang','$harga','$stock')");
-        if ($addtotable) {
-            header('location:stockBarang.php');
-        } 
-    } else {
-        //jika nama sudah ada
-        echo '
+            $addtotable = mysqli_query($conn, "insert into stock (idkodebarang,namabarang,harga,stock)values('$kodebarangnya','$namabarang','$harga','$stock')");
+            if ($addtotable) {
+                header('location:stockBarang.php');
+            }
+        } else {
+            //jika nama sudah ada
+            echo '
         <script>
             alert("Nama Barang Sudah Ada");
             window.location.href="stockBarang.php";
         </script>
         ';
-    }
-        
+        }
     } else if ($hitung < 1) {
         //proses gambar
         if (in_array($ekstensi, $allowed_extension) === true) {
@@ -96,7 +95,6 @@ if (isset($_POST['addnewbarang'])) {
 if (isset($_POST['updatebarang'])) {
     $idb = $_POST['idb'];
     $namabarang = $_POST['namabarang'];
-    $deskripsi = $_POST['deskripsi'];
     $harga = $_POST['harga'];
 
     //gambar
@@ -108,23 +106,48 @@ if (isset($_POST['updatebarang'])) {
     $file_tmp = $_FILES['file']['tmp_name']; //ambil lokasi file
     //penamaan file
     $image = md5(uniqid($nama, true) . time()) . '.' . $ekstensi; //menghubungkan file 
+
+    //cek nama barang
+    $cek = mysqli_query($conn, "select * from stock where namabarang='$namabarang'");
+    $hitung = mysqli_num_rows($cek);
+
+
     if ($ukuran === 0) {
         //jika tidak ingin upload
-        $update = mysqli_query($conn, "update stock set namabarang='$namabarang', deskripsi='$deskripsi', harga='$harga', image='$image' where idbarang='$idb'");
+        $update = mysqli_query($conn, "update stock set namabarang='$namabarang', harga='$harga' where idbarang='$idb'");
         if ($update) {
             header('location:stockBarang.php');
         } else {
             header('location:stockBarang.php');
+        }
+    } else if (in_array($ekstensi, $allowed_extension) === true) {
+        //validasi ukuran file 
+        if ($ukuran < 15000000) {
+            //jika upload
+            move_uploaded_file($file_tmp, '../images/' . $image);
+            $update = mysqli_query($conn, "update stock set namabarang='$namabarang', harga='$harga', image='$image' where idbarang='$idb'");
+            if ($update) {
+                header('location:stockBarang.php');
+            } else {
+                header('location:stockBarang.php');
+            }
+        } else {
+            //kalau ukuran lebih dr 1.5mb
+            echo '
+            <script>
+                alert("Ukuran terlalu besar");
+                window.location.href="stockBarang.php";
+            </script>
+            ';
         }
     } else {
-        //jika upload
-        move_uploaded_file($file_tmp, '../images/' . $image);
-        $update = mysqli_query($conn, "update stock set namabarang='$namabarang', deskripsi='$deskripsi', harga='$harga', image='$image' where idbarang='$idb'");
-        if ($update) {
-            header('location:stockBarang.php');
-        } else {
-            header('location:stockBarang.php');
-        }
+        //jika file bukan png/jpg
+        echo '
+        <script>
+            alert("File Harus png/jpg");
+            window.location.href="stockBarang.php";
+        </script>
+        ';
     }
 }
 
@@ -219,7 +242,7 @@ if (isset($_POST['updatebarangmasuk'])) {
 
 /********************
  * Delete barang masuk
- ********************/ 
+ ********************/
 if (isset($_POST['hapusbarangmasuk'])) {
     $idb = $_POST['idb'];
     $qty = $_POST['kty'];
@@ -303,7 +326,7 @@ if (isset($_POST['updatebarangkeluar'])) {
         $selisih = $qty - $qtyskrg;
         $kurangin = $stockskrg - $selisih;
 
-        if ($selisih <= $stockskrg){
+        if ($selisih <= $stockskrg) {
             $kurangistocknya = mysqli_query($conn, "update stock set stock='$kurangin' where idbarang='$idb'");
             $updatenya = mysqli_query($conn, "update keluar set qty='$qty', penerima='$penerima' where idkeluar='$idk'");
             if ($kurangistocknya && $updatenya) {
@@ -320,7 +343,6 @@ if (isset($_POST['updatebarangkeluar'])) {
             </script>
             ';
         }
-
     } else {
         $selisih = $qtyskrg - $qty;
         $kurangin = $stockskrg + $selisih;
@@ -425,13 +447,13 @@ if (isset($_POST['updatebarangretur'])) {
             $kurangistocknya = mysqli_query($conn, "update stock set stock='$kurangin' where idbarang='$idb'");
             $updatenya = mysqli_query($conn, "update retur set qty='$qty', keterangan='$keterangan' where idretur='$idr'");
             if ($kurangistocknya && $updatenya) {
-            header('location:retur.php');
+                header('location:retur.php');
             } else {
                 echo 'Gagal';
                 header('location:retur.php');
             }
         } else {
-        echo '
+            echo '
             <script>
                 alert ("Stok barang tidak mencukupi");
                 window.location.href="retur.php";
@@ -476,6 +498,8 @@ if (isset($_POST['hapusbarangretur'])) {
         header('location:retur.php');
     }
 }
+
+
 
 
 
@@ -533,6 +557,7 @@ if (isset($_POST['hapussupplier'])) {
 
 
 
+
 /********************
  * Add kode barang
  ********************/
@@ -540,16 +565,26 @@ if (isset($_POST['kodebarang'])) {
     $namakodebarang = $_POST['namakodebarang'];
     $deskripsi = $_POST['deskripsi'];
 
-    //validasi sudah ada atau belum
+    //validasi nama sudah ada atau belum
     $cekkodebarang = mysqli_query($conn, "select * from kode_barang where namakodebarang='$namakodebarang'");
     $hitungkodebarang = mysqli_num_rows($cekkodebarang);
 
 
-    $addtokodebarang = mysqli_query($conn, "insert into kode_barang (namakodebarang, deskripsi)values('$namakodebarang','$deskripsi')");
-    if ($addtokodebarang) {
-        header('location:kodeBarang.php');
+    if ($hitungkodebarang < 1) {
+        $addtokodebarang = mysqli_query($conn, "insert into kode_barang (namakodebarang, deskripsi)values('$namakodebarang','$deskripsi')");
+        if ($addtokodebarang) {
+            header('location:kodeBarang.php');
+        } else {
+            header('location:kodeBarang.php');
+        }
     } else {
-        header('location:kodeBarang.php');
+        //jika nama sudah ada
+        echo '
+        <script>
+            alert("Nama Kode Sudah Ada");
+            window.location.href="kodeBarang.php";
+        </script>
+        ';
     }
 }
 
@@ -562,12 +597,30 @@ if (isset($_POST['updatekodebarang'])) {
     $namakodebarang = $_POST['namakodebarang'];
     $deskripsi = $_POST['deskripsi'];
 
-    $updatetokodebarang = mysqli_query($conn, "update kode_barang set namakodebarang='$namakodebarang',deskripsi='$deskripsi' where idkodebarang='$idkb'");
 
-    if ($updatesupplier) {
-        header('location:kodeBarang.php');
+    //validasi nama sudah ada atau belum
+    $cekkodebarang = mysqli_query($conn, "select * from kode_barang where namakodebarang='$namakodebarang'");
+    $hitungkodebarang = mysqli_num_rows($cekkodebarang);
+
+    $updatedeskripsi = mysqli_query($conn, "update kode_barang set deskripsi='$deskripsi' where idkodebarang='$idkb'");
+
+    if ($updatedeskripsi) {
+        if ($hitungkodebarang < 1) {
+            $updatetokodebarang = mysqli_query($conn, "update kode_barang set namakodebarang='$namakodebarang', deskripsi='$deskripsi' where idkodebarang='$idkb'");
+            if ($updatetokodebarang) {
+                header('location:kodeBarang.php');
+            }
+        } else {
+            header('location:kodeBarang.php');
+        }
     } else {
-        header('location:kodeBarang.php');
+        //jika nama sudah ada
+        echo '
+       <script>
+           alert("Nama Kode Sudah Ada");
+           window.location.href="kodeBarang.php";
+       </script>
+       ';
     }
 }
 
@@ -597,12 +650,25 @@ if (isset($_POST['addadmin'])) {
     $password = $_POST['password'];
     $role = $_POST['role'];
 
-    $addtoadmin = mysqli_query($conn, "insert into login (username, password, role)values('$username','$password','$role')");
+    $cekusername = mysqli_query($conn, "select * from login where username='$username'");
+    $hitungusername = mysqli_num_rows($cekusername);
 
-    if ($addtoadmin) {
-        header('location:admin.php');
+
+    if ($hitungusername < 1) {
+        $addtoadmin = mysqli_query($conn, "insert into login (username, password, role)values('$username','$password','$role')");
+        if ($addtoadmin) {
+            header('location:admin.php');
+        } else {
+            header('location:admin.php');
+        }
     } else {
-        header('location:admin.php');
+        //jika nama sudah ada
+        echo '
+        <script>
+            alert("Nama Admin Sudah Ada");
+            window.location.href="admin.php";
+        </script>
+        ';
     }
 }
 

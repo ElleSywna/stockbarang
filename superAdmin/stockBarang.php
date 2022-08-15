@@ -263,7 +263,7 @@ require '../cek.php';
             <form method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <select name="kodebarangnya" class="form-control mb-3" required>
-                        <!-- <option hidden>Pilih Kode Barang</option> -->
+                        <option value="" hidden>Pilih Kode Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from kode_barang");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {

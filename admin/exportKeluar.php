@@ -5,7 +5,7 @@ require '../cek.php';
 <html>
 
 <head>
-    <title>Stock Barang</title>
+    <title>Laporan Barang Keluar</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -17,10 +17,17 @@ require '../cek.php';
 </head>
 
 <body>
-    <div class="container">
-        <h2>Stock Bahan</h2>
-        <h4>(Inventory)</h4>
+    <div class="container mt-4">
+        <h2>Laporan Barang Keluar</h2>
+        <h4>(Inventori)</h4>
         <div class="data-tables datatable-dark">
+            <div class="card" style="width: 28rem; background:beige; margin:15px; margin-top:20px">
+                <form method="post" class="d-flex w-50 my-3 mx-3">
+                    <input type="date" name="tgl_mulai" class="d-flex form-control">
+                    <input type="date" name="tgl_selesai" class="d-felx form-control mx-2">
+                    <button type="submit" name="filter_tgl" class="btn btn-info"> Filter </button>
+                </form>
+            </div>
             <div class="card-body">
                 <table id="mauexportkeluar">
                     <thead>
@@ -33,7 +40,19 @@ require '../cek.php';
                     </thead>
                     <tbody>
                         <?php
-                        $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang=k.idbarang");
+                        if (isset($_POST['filter_tgl'])) {
+                            $mulai = $_POST['tgl_mulai'];
+                            $selesai = $_POST['tgl_selesai'];
+
+                            if ($mulai != null || $selesai != null) {
+                                $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang and tanggal BETWEEN '$mulai' and DATE_ADD('$selesai',INTERVAL 1 DAY) order by idkeluar DESC");
+                            } else {
+                                $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang order by idkeluar DESC");
+                            }
+                        } else {
+                            $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k,stock s where s.idbarang = k.idbarang order by idkeluar DESC");
+                        }
+
                         while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                             $idk = $data['idkeluar'];
                             $idb = $data['idbarang'];
@@ -43,6 +62,7 @@ require '../cek.php';
                             $penerima = $data['penerima'];
 
                         ?>
+                            
                             <tr>
                                 <td><?php echo $tanggal ?></td>
                                 <td><?php echo $namabarang; ?></td>

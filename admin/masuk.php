@@ -160,8 +160,8 @@ require '../cek.php';
                                                     <form method="post">
                                                         <div class="modal-body">
 
-                                                            <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control mb-3" required>
-                                                            <input type="number" name="qty" value="<?= $qty; ?>" class="form-control mb-3" required>
+                                                            <input type="text" name="keterangan" placeholder="Keterangan" value="<?= $keterangan; ?>" class="form-control mb-3" required>
+                                                            <input type="number" name="qty" placeholder="QTY" value="<?= $qty; ?>" class="form-control mb-3" required>
                                                             <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                             <input type="hidden" name="idm" value="<?= $idm; ?>">
                                                             <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
@@ -234,7 +234,7 @@ require '../cek.php';
             <form method="post">
                 <div class="modal-body">
                     <select name="barangnya" class="form-control mb-3" required>
-                    <option hidden>Pilih Barang</option>
+                    <option hidden value="">Pilih Barang</option>
                         <?php
                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
                         while ($fetcharray = mysqli_fetch_array($ambilsemuadatanya)) {
@@ -248,7 +248,7 @@ require '../cek.php';
                         ?>
                     </select>
                     <input type="number" name="qty" placeholder="QTY" class="form-control mb-3" required>
-                    <input type="text" name="penerima" placeholder="Penerima" class="form-control mb-3" required>
+                    <input type="text" name="penerima" placeholder="Keterangan" class="form-control mb-3" required>
                     <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
                 </div>
             </form>
